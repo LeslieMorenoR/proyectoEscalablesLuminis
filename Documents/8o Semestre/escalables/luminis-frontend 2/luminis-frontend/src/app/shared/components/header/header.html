@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg fixed-top luminis-navbar">
+  <div class="container">
+    <a class="navbar-brand luminis-brand" routerLink="/">
+      LUMINIS
+    </a>
+
+    <button class="navbar-toggler luminis-toggler" type="button" (click)="toggleMenu()"
+            [attr.aria-expanded]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link luminis-link" routerLink="/" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link luminis-link" routerLink="/mentors" routerLinkActive="active">Mentoras</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link luminis-link" routerLink="/areas" routerLinkActive="active">Areas</a>
+        </li>
+
+        @if (currentUser) {
+          <li class="nav-item dropdown">
+            <a class="nav-link luminis-link dropdown-toggle d-flex align-items-center gap-2"
+               href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              @if (currentUser.fotoPerfil) {
+                <img [src]="currentUser.fotoPerfil" alt="Avatar"
+                     class="rounded-circle luminis-avatar" width="32" height="32">
+              } @else {
+                <div class="luminis-avatar-placeholder rounded-circle">
+                  {{ currentUser.nombre.charAt(0).toUpperCase() }}
+                </div>
+              }
+              <span>{{ currentUser.nombre }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end luminis-dropdown">
+              <li>
+                <a class="dropdown-item" (click)="navigateToDashboard()" style="cursor: pointer;">
+                  <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/profile">
+                  <i class="bi bi-person me-2"></i>Mi Perfil
+                </a>
+              </li>
+              @if (currentUser.rol === UserRole.ESTUDIANTE) {
+                <li>
+                  <a class="dropdown-item" routerLink="/student/requests">
+                    <i class="bi bi-envelope me-2"></i>Mis Solicitudes
+                  </a>
+                </li>
+              }
+              @if (currentUser.rol === UserRole.MENTORA) {
+                <li>
+                  <a class="dropdown-item" routerLink="/mentor/requests">
+                    <i class="bi bi-inbox me-2"></i>Solicitudes Recibidas
+                  </a>
+                </li>
+              }
+              @if (currentUser.rol === UserRole.ADMINISTRADOR) {
+                <li>
+                  <a class="dropdown-item" routerLink="/admin/users">
+                    <i class="bi bi-people me-2"></i>Gestionar Usuarios
+                  </a>
+                </li>
+              }
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" (click)="logout()" style="cursor: pointer;">
+                  <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesion
+                </a>
+              </li>
+            </ul>
+          </li>
+        } @else {
+          <li class="nav-item">
+            <a class="nav-link luminis-link" routerLink="/login">Iniciar Sesion</a>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn luminis-btn-outline" routerLink="/register">Registrarse</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div style="height: 70px;"></div>

@@ -1,0 +1,20 @@
+<section class="mentors-hero gradient-bg text-white py-5">
+  <div class="container text-center">
+    <h1 class="display-5 fw-bold mb-3">Conoce a Nuestras Mentoras</h1>
+    <p class="lead mb-0">
+      Profesionales experimentadas listas para guiarte en tu desarrollo
+    </p>
+  </div>
+</section>
+
+<section class="section-padding">
+  <div class="container">
+    <div class="row g-4">
+      @for (mentora of mentoras; track mentora.id) {
+        <div class="col-lg-4 col-md-6">
+          <app-mentor-card [mentora]="mentora"></app-mentor-card>
+        </div>
+      }
+    </div>
+  </div>
+</section>

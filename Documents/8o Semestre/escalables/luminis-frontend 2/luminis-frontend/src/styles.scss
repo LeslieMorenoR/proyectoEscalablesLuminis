@@ -1,0 +1,140 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Angular Material
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+// Variables personalizadas LUMINIS
+:root {
+  --luminis-primary: #8B5CF6;
+  --luminis-secondary: #EC4899;
+  --luminis-accent: #F59E0B;
+  --luminis-dark: #1F2937;
+  --luminis-light: #F9FAFB;
+  --luminis-success: #10B981;
+  --luminis-danger: #EF4444;
+  --luminis-warning: #F59E0B;
+  --luminis-info: #3B82F6;
+}
+
+// Estilos globales
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--luminis-light);
+  color: var(--luminis-dark);
+  line-height: 1.6;
+}
+
+// Utilidades personalizadas
+.text-primary-luminis {
+  color: var(--luminis-primary) !important;
+}
+
+.bg-primary-luminis {
+  background-color: var(--luminis-primary) !important;
+}
+
+.text-secondary-luminis {
+  color: var(--luminis-secondary) !important;
+}
+
+.bg-secondary-luminis {
+  background-color: var(--luminis-secondary) !important;
+}
+
+.btn-luminis-primary {
+  background-color: var(--luminis-primary);
+  border-color: var(--luminis-primary);
+  color: white;
+  
+  &:hover {
+    background-color: #7C3AED;
+    border-color: #7C3AED;
+  }
+}
+
+.btn-luminis-secondary {
+  background-color: var(--luminis-secondary);
+  border-color: var(--luminis-secondary);
+  color: white;
+  
+  &:hover {
+    background-color: #DB2777;
+    border-color: #DB2777;
+  }
+}
+
+.card-luminis {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--luminis-primary) 0%, var(--luminis-secondary) 100%);
+}
+
+.section-padding {
+  padding: 80px 0;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--luminis-dark);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--luminis-dark);
+  margin-bottom: 1rem;
+}
+
+// Scrollbar personalizada
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--luminis-primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7C3AED;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-padding {
+    padding: 40px 0;
+  }
+}

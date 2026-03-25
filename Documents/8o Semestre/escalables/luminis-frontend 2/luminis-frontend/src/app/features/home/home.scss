@@ -1,0 +1,112 @@
+.hero-section {
+  padding: 100px 0 80px;
+  position: relative;
+  overflow: hidden;
+
+  .min-vh-75 {
+    min-height: 75vh;
+  }
+
+  .hero-image {
+    animation: float 3s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.stats-section {
+  .stat-item {
+    padding: 1rem;
+    
+    h2 {
+      font-size: 3rem;
+    }
+  }
+}
+
+.areas-section {
+  .area-icon {
+    i {
+      font-size: 3rem;
+    }
+  }
+
+  .card {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+.how-it-works-section {
+  .step-card {
+    position: relative;
+    padding: 2rem;
+
+    .step-number {
+      position: absolute;
+      top: 0;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--luminis-primary), var(--luminis-secondary));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .step-icon {
+      font-size: 4rem;
+      color: var(--luminis-primary);
+    }
+  }
+}
+
+.testimonials-section {
+  .rating {
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+
+.cta-section {
+  padding: 60px 0;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 0 40px;
+
+    .display-3 {
+      font-size: 2.5rem;
+    }
+  }
+
+  .stats-section {
+    .stat-item h2 {
+      font-size: 2rem;
+    }
+  }
+
+  .how-it-works-section {
+    .step-card .step-number {
+      top: -20px;
+      right: 50%;
+      transform: translateX(50%);
+    }
+  }
+}

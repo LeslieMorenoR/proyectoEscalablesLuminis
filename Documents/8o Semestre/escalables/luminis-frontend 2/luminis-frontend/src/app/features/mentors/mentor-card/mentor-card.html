@@ -1,0 +1,27 @@
+<div class="card card-luminis h-100 mentor-card">
+  <div class="card-body p-4 d-flex flex-column align-items-center text-center">
+
+    <div class="mentor-foto-wrapper mb-3">
+      <img [src]="mentora.foto" [alt]="mentora.nombre"
+           class="rounded-circle mentor-foto">
+    </div>
+
+    <h5 class="fw-bold mb-1">{{ mentora.nombre }}</h5>
+    <p class="text-muted small mb-1">{{ mentora.puesto }}</p>
+    <p class="text-muted small mb-3">
+      <i class="bi bi-building me-1"></i>{{ mentora.empresa }}
+    </p>
+
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+      @for (area of mentora.areas; track area.nombre) {
+        <span class="badge-area">{{ area.nombre }}</span>
+      }
+    </div>
+
+    <a [routerLink]="['/mentors', mentora.id]"
+       class="btn btn-luminis-primary w-100 mt-auto">
+      Ver Perfil
+    </a>
+
+  </div>
+</div>

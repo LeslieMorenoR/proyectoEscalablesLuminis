@@ -1,0 +1,67 @@
+<footer class="footer bg-dark text-white pt-5 pb-3">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Columna 1: Logo y descripción -->
+      <div class="col-lg-4 col-md-6">
+        <h3 class="mb-3">
+          <span class="text-primary-luminis">LUMI</span><span class="text-secondary-luminis">NIS</span>
+        </h3>
+        <p class="text-light-gray">
+          Red de mentoría para mujeres profesionales y estudiantes. 
+          Conectamos talento con experiencia para impulsar el crecimiento profesional.
+        </p>
+        <div class="social-links mt-3">
+          <a href="#" class="me-3" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="me-3" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="me-3" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <!-- Columna 2: Enlaces rápidos -->
+      <div class="col-lg-2 col-md-6">
+        <h5 class="mb-3">Enlaces</h5>
+        <ul class="list-unstyled footer-links">
+          <li><a routerLink="/">Inicio</a></li>
+          <li><a routerLink="/mentors">Mentoras</a></li>
+          <li><a routerLink="/areas">Áreas</a></li>
+          <li><a routerLink="/about">Acerca de</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Contacto -->
+      <div class="col-lg-3 col-md-6">
+        <h5 class="mb-3">Contacto</h5>
+        <ul class="list-unstyled contact-info">
+          <li class="mb-2">
+            <i class="bi bi-envelope me-2"></i>
+            <a href="mailto:info@luminis.com">info&#64;luminis.com</a>
+          </li>
+          <li class="mb-2">
+            <i class="bi bi-geo-alt me-2"></i>
+            San Luis Potosí, México
+          </li>
+          <li class="mb-2">
+            <i class="bi bi-phone me-2"></i>
+            <a href="tel:+524441234567">+52 (444) 123-4567</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-4 bg-secondary">
+
+    <!-- Copyright y términos -->
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+        <p class="mb-0 text-light-gray small">
+          &copy; {{ currentYear }} LUMINIS. Todos los derechos reservados.
+        </p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a routerLink="/privacy" class="text-light-gray small me-3">Privacidad</a>
+        <a routerLink="/terms" class="text-light-gray small">Términos de Uso</a>
+      </div>
+    </div>
+  </div>
+</footer>
