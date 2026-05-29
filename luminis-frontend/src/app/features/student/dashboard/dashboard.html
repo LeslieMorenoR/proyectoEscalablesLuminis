@@ -1,0 +1,432 @@
+@if (loading) {
+
+<div class="loading-screen">
+  <div class="spinner-border text-light"></div>
+</div>
+
+} @else if (student) {
+
+<div class="student-dashboard">
+
+  <!-- HERO -->
+  <section class="hero-section">
+
+    <div class="hero-content">
+
+      <div class="profile-section">
+
+        <img
+          [src]="
+            student.usuarioId.fotoPerfil
+              ? (student.usuarioId.fotoPerfil.startsWith('http')
+                  ? student.usuarioId.fotoPerfil
+                  : 'assets/' + student.usuarioId.fotoPerfil)
+              : 'assets/default-avatar.png'
+          "
+          alt="Foto perfil"
+          class="hero-avatar"
+        />
+
+        <div class="hero-info">
+
+          <span class="mini-title">
+            Panel de estudiante
+          </span>
+
+          <h1>
+            {{ student.usuarioId.nombre || 'Estudiante' }}
+          </h1>
+
+          <p class="hero-subtitle">
+            Gestiona tus mentorías, explora nuevas conexiones y continúa tu desarrollo profesional.
+          </p>
+
+          <div class="hero-tags">
+
+            <span class="info-chip">
+              {{ student.carrera || 'Sin carrera registrada' }}
+            </span>
+
+            <span class="info-chip">
+              {{ student.universidad || 'Sin universidad registrada' }}
+            </span>
+
+            <span class="info-chip">
+              Semestre {{ student.semestre || 0 }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <button class="primary-btn" (click)="findMentors()">
+        Buscar mentoras
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-grid">
+
+    <div class="stat-card purple">
+      <div class="icon">
+        <i class="bi bi-people-fill"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats.totalMentorias }}</h2>
+        <p>Total mentorías</p>
+      </div>
+    </div>
+
+    <div class="stat-card blue">
+      <div class="icon">
+        <i class="bi bi-activity"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats.mentoriasActivas }}</h2>
+        <p>Mentorías activas</p>
+      </div>
+    </div>
+
+    <div class="stat-card pink">
+      <div class="icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats.mentoriasCompletadas }}</h2>
+        <p>Completadas</p>
+      </div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="icon">
+        <i class="bi bi-person-workspace"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats.mentoresConectadas }}</h2>
+        <p>Mentoras conectadas</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MAIN GRID -->
+  <section class="dashboard-grid">
+
+    <!-- LEFT -->
+    <div class="main-column">
+
+      <!-- MENTORÍAS -->
+      <div class="glass-card">
+
+        <div class="section-header">
+          <h3>Mentorías activas</h3>
+
+          <button
+            class="secondary-btn"
+            (click)="findMentors()"
+          >
+            Nueva mentoría
+          </button>
+        </div>
+
+        @if (!mentoriasActivas || mentoriasActivas.length === 0) {
+
+          <div class="empty-state">
+
+            <h4>
+              No tienes mentorías activas
+            </h4>
+
+            <p>
+              Explora mentoras disponibles y comienza una nueva conexión profesional.
+            </p>
+
+            <button class="primary-btn" (click)="findMentors()">
+              Explorar mentoras
+            </button>
+
+          </div>
+
+        } @else {
+
+          <div class="mentorias-list">
+
+            @for (mentoria of mentoriasActivas; track mentoria._id) {
+
+              <div class="mentoria-card">
+
+                <div class="mentor-info">
+
+                  <img
+                    [src]="
+                      mentoria.mentoraId.usuarioId.fotoPerfil
+                        ? (mentoria.mentoraId.usuarioId.fotoPerfil.startsWith('http')
+                            ? mentoria.mentoraId.usuarioId.fotoPerfil
+                            : 'assets/' + mentoria.mentoraId.usuarioId.fotoPerfil)
+                        : 'assets/default-avatar.png'
+                    "
+                    alt="Mentora"
+                    class="mentor-avatar"
+                  />
+
+                  <div>
+
+                    <h4>
+                      {{ mentoria.mentoraId.usuarioId.nombre }}
+                    </h4>
+
+                    <p>
+                      @if (mentoria.mentoraId.especialidades.length) {
+                        {{ mentoria.mentoraId.especialidades[0].nombre }}
+                      }
+                    </p>
+
+                    <small>
+                      Inicio:
+                      {{ mentoria.fechaSolicitud | date:'dd/MM/yyyy' }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+                
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- MENTORAS -->
+      <div class="glass-card">
+
+        <div class="section-header">
+          <h3>Mentoras recomendadas</h3>
+        </div>
+
+        @if (!mentoresRecomendadas || mentoresRecomendadas.length === 0) {
+
+          <div class="empty-state">
+            <p>
+              No hay mentoras disponibles en este momento.
+            </p>
+          </div>
+
+        } @else {
+
+          <div class="mentor-grid">
+
+            @for (mentor of mentoresRecomendadas; track mentor._id) {
+
+              <div class="mentor-card">
+
+                <div class="mentor-top">
+
+                  <img
+                    [src]="
+                      mentor.usuarioId.fotoPerfil
+                        ? (mentor.usuarioId.fotoPerfil.startsWith('http')
+                            ? mentor.usuarioId.fotoPerfil
+                            : 'assets/' + mentor.usuarioId.fotoPerfil)
+                        : 'assets/default-avatar.png'
+                    "
+                    alt="Mentora"
+                    class="mentor-avatar"
+                  />
+
+                  <div>
+
+                    <h4>
+                      {{ mentor.usuarioId.nombre }}
+                    </h4>
+
+                    <p>
+                      {{ mentor.puesto }}
+                    </p>
+
+                    <small>
+                      {{ mentor.empresa }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <div class="mentor-tags">
+
+                  @for (esp of mentor.especialidades; track esp.nombre) {
+
+                    <span class="info-chip">
+                      {{ esp.nombre }}
+                    </span>
+
+                  }
+
+                </div>
+
+                <div class="mentor-actions">
+
+                  <button
+                    class="secondary-btn"
+                    (click)="viewMentorProfile(mentor._id)"
+                  >
+                    Perfil
+                  </button>
+
+                  <button
+                    class="primary-btn"
+                    (click)="requestMentorship(mentor._id)"
+                    [disabled]="!mentor.disponibilidad"
+                  >
+                    {{ mentor.disponibilidad ? 'Solicitar' : 'No disponible' }}
+                  </button>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="sidebar-column">
+
+      <!-- PERFIL -->
+      <div class="glass-card">
+
+        <div class="section-header">
+          <h3>Mi perfil</h3>
+
+          <button
+            class="icon-btn"
+            (click)="editProfile()"
+          >
+            <i class="bi bi-pencil"></i>
+          </button>
+        </div>
+
+        <div class="profile-data">
+
+          <div class="profile-item">
+            <label>Universidad</label>
+            <p>{{ student.universidad || 'No especificada' }}</p>
+          </div>
+
+          <div class="profile-item">
+            <label>Carrera</label>
+            <p>{{ student.carrera || 'No especificada' }}</p>
+          </div>
+
+          <div class="profile-item">
+            <label>Semestre</label>
+            <p>{{ student.semestre || 0 }}</p>
+          </div>
+
+          @if (student.objetivos) {
+
+            <div class="profile-item">
+              <label>Objetivos</label>
+              <p>{{ student.objetivos }}</p>
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- ÁREAS -->
+      <div class="glass-card">
+
+        <div class="section-header">
+          <h3>Áreas de interés</h3>
+        </div>
+
+        @if (!student.areasInteres || student.areasInteres.length === 0) {
+
+          <div class="empty-state small-empty">
+
+            <p>
+              Agrega áreas de interés para recibir mejores recomendaciones.
+            </p>
+
+            <button
+              class="primary-btn"
+              (click)="editProfile()"
+            >
+              Editar perfil
+            </button>
+
+          </div>
+
+        } @else {
+
+          <div class="mentor-tags">
+
+            @for (area of student.areasInteres; track area._id) {
+
+              <span class="info-chip">
+                {{ area.nombre }}
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+} @else {
+
+<div class="loading-screen">
+
+  <div class="glass-card error-card text-center">
+
+    <h3>
+      No se pudo cargar el perfil
+    </h3>
+
+    <p>
+      Intenta recargar la página o iniciar sesión nuevamente.
+    </p>
+
+    <button
+      class="primary-btn"
+      onclick="location.reload()"
+    >
+      Recargar
+    </button>
+
+  </div>
+
+</div>
+
+}

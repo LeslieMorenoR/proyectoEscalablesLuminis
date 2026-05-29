@@ -1,0 +1,94 @@
+<div class="admin-page">
+
+  <!-- HERO -->
+  <section class="dashboard-hero">
+    <div>
+      <p class="hero-badge">Panel administrativo</p>
+      <h1>Centro de Control LUMINIS</h1>
+      <p class="hero-subtitle">
+        Gestiona usuarios, mentoras y mentorías desde un solo lugar.
+      </p>
+    </div>
+  </section>
+
+  <!-- ALERTAS -->
+  @if (errorMessage) {
+    <div class="custom-alert error">
+      <i class="bi bi-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+  }
+
+  <!-- STATS -->
+  <section class="stats-grid">
+
+    <div class="stat-card purple">
+      <div class="icon">
+        <i class="bi bi-people-fill"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats?.totalUsuarios || 0 }}</h2>
+        <p>Usuarios</p>
+      </div>
+    </div>
+
+    <div class="stat-card blue">
+      <div class="icon">
+        <i class="bi bi-mortarboard-fill"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats?.totalEstudiantes || 0 }}</h2>
+        <p>Estudiantes</p>
+      </div>
+    </div>
+
+    <div class="stat-card pink">
+      <div class="icon">
+        <i class="bi bi-person-badge-fill"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats?.totalMentoras || 0 }}</h2>
+        <p>Mentoras</p>
+      </div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="icon">
+        <i class="bi bi-clock-fill"></i>
+      </div>
+
+      <div>
+        <h2>{{ stats?.mentorasPendientes || 0 }}</h2>
+        <p>Pendientes</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section class="quick-actions">
+
+    <a routerLink="/admin/users" class="action-card">
+      <i class="bi bi-people"></i>
+      <h3>Usuarios</h3>
+      <p>Administrar cuentas y permisos</p>
+    </a>
+
+    <a routerLink="/admin/areas" class="action-card">
+      <i class="bi bi-grid"></i>
+      <h3>Áreas</h3>
+      <p>Gestionar especialidades</p>
+    </a>
+
+    <a routerLink="/admin/users" class="action-card">
+      <i class="bi bi-check-circle"></i>
+      <h3>Mentoras</h3>
+      <p>Aprobar solicitudes pendientes</p>
+    </a>
+
+  </section>
+
+</div>

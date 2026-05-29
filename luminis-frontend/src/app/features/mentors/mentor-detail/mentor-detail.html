@@ -1,0 +1,343 @@
+<div class="mentor-detail-page">
+
+  <!-- LOADING -->
+  @if (loading) {
+
+    <div class="vh-100 d-flex justify-content-center align-items-center">
+
+      <div class="text-center">
+
+        <div class="spinner-border text-light mb-3"></div>
+
+        <p class="text-light">
+          Cargando mentora...
+        </p>
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ERROR -->
+  @else if (error) {
+
+    <div class="vh-100 d-flex justify-content-center align-items-center">
+
+      <div class="text-center">
+
+        <i class="bi bi-exclamation-circle error-icon"></i>
+
+        <h3 class="mt-3 text-white">
+          {{ error }}
+        </h3>
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- CONTENT -->
+  @else if (mentor) {
+
+    <!-- HERO -->
+    <section class="mentor-hero gradient-bg">
+
+      <div class="container">
+
+        <div class="row align-items-center g-5">
+
+          <!-- INFO -->
+          <div class="col-lg-8">
+
+            <div class="mentor-header">
+
+              <img
+                [src]="
+                  mentor.usuarioId.fotoPerfil
+                    ? (
+                        mentor.usuarioId.fotoPerfil.startsWith('http')
+                          ? mentor.usuarioId.fotoPerfil
+                          : 'assets/' + mentor.usuarioId.fotoPerfil
+                      )
+                    : 'assets/default-avatar.png'
+                "
+                [alt]="mentor.usuarioId.nombre"
+                class="mentor-avatar"
+              />
+
+              <div>
+
+                <span class="mentor-badge">
+                  Mentora STEM
+                </span>
+
+                <h1 class="mentor-name">
+                  {{ mentor.usuarioId.nombre }}
+                </h1>
+
+                <p class="mentor-role">
+                  {{ mentor.puesto || 'Mentora Profesional' }}
+                </p>
+
+                <div class="mentor-meta">
+
+                  <span>
+                    <i class="bi bi-building"></i>
+
+                    {{ mentor.empresa || 'Empresa no especificada' }}
+                  </span>
+
+                  <span>
+                    <i class="bi bi-briefcase"></i>
+
+                    {{ mentor.experiencia }} años de experiencia
+                  </span>
+
+                  <span>
+                    <i class="bi bi-star-fill"></i>
+
+                    {{ mentor.calificacionPromedio || 0 }}
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- REQUEST -->
+          @if (isStudent) {
+
+            <div class="col-lg-4">
+
+              <div class="request-card">
+
+                <div class="request-top">
+
+                  <h4>
+                    Solicitar mentoría
+                  </h4>
+
+                  <p>
+                    Agenda una sesión con esta mentora ✨
+                  </p>
+
+                </div>
+
+                <!-- HORARIOS -->
+                <div class="mb-4">
+
+                  <label class="form-label">
+                    Horarios disponibles
+                  </label>
+
+                  @if (horariosDisponibles.length > 0) {
+
+                    <div class="horarios-grid">
+
+                      @for (
+                        horario of horariosDisponibles;
+                        track horario.fecha
+                      ) {
+
+                        @if (horario.disponible) {
+
+                          <button
+                            type="button"
+                            class="horario-chip"
+                            [class.active]="fechaMentoria === horario.fecha"
+                            (click)="selectHorario(horario.fecha)"
+                          >
+
+                            <i class="bi bi-clock"></i>
+
+                            {{ formatHorario(horario.fecha) }}
+
+                          </button>
+
+                        }
+
+                      }
+
+                    </div>
+
+                  } @else {
+
+                    <div class="empty-horarios">
+
+                      <i class="bi bi-calendar-x"></i>
+
+                      <p>
+                        Esta mentora aún no ha agregado horarios disponibles.
+                      </p>
+
+                    </div>
+
+                  }
+
+                </div>
+
+                <!-- MENSAJE -->
+                <div class="mb-4">
+
+                  <label class="form-label">
+                    Mensaje
+                  </label>
+
+                  <textarea
+                    [(ngModel)]="mensaje"
+                    class="form-control"
+                    rows="5"
+                    placeholder="Cuéntale qué te gustaría aprender, mejorar o explorar..."
+                  ></textarea>
+
+                </div>
+
+                <!-- BTN -->
+                <button
+                  class="request-btn"
+                  (click)="sendRequest()"
+                  [disabled]="sendingRequest"
+                >
+
+                  @if (!sendingRequest) {
+
+                    <span>
+                      Enviar solicitud
+                    </span>
+
+                  } @else {
+
+                    <span>
+                      Enviando...
+                    </span>
+
+                  }
+
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- CONTENT -->
+    <section class="mentor-content">
+
+      <div class="container">
+
+        <div class="row g-4">
+
+          <!-- LEFT -->
+          <div class="col-lg-8">
+
+            <!-- BIO -->
+            <div class="content-card">
+
+              <h3 class="section-title">
+                Sobre la mentora
+              </h3>
+
+              <p class="section-text">
+
+                {{
+                  mentor.usuarioId.biografia ||
+                  'Esta mentora aún no ha agregado una biografía.'
+                }}
+
+              </p>
+
+            </div>
+
+            <!-- EDUCACION -->
+            <div class="content-card">
+
+              <h3 class="section-title">
+                Educación
+              </h3>
+
+              <p class="section-text">
+
+                {{ mentor.educacion || 'No especificada' }}
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- RIGHT -->
+          <div class="col-lg-4">
+
+            <!-- ESPECIALIDADES -->
+            <div class="content-card">
+
+              <h3 class="section-title">
+                Especialidades
+              </h3>
+
+              <div class="tags-container">
+
+                @for (
+                  especialidad of mentor.especialidades;
+                  track especialidad._id
+                ) {
+
+                  <span class="custom-tag">
+                    {{ especialidad.nombre }}
+                  </span>
+
+                }
+
+              </div>
+
+            </div>
+
+            <!-- DISPONIBILIDAD -->
+            <div class="content-card">
+
+              <h3 class="section-title">
+                Disponibilidad
+              </h3>
+
+              <div
+                class="availability"
+                [class.available]="mentor.disponibilidad"
+              >
+
+                <span class="status-dot"></span>
+
+                {{
+
+                  mentor.disponibilidad
+                    ? 'Disponible para mentorías'
+                    : 'No disponible actualmente'
+
+                }}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  }
+
+</div>

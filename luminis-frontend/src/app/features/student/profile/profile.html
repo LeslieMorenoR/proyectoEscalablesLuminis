@@ -1,0 +1,270 @@
+<section class="profile-page">
+
+  <!-- HERO -->
+  <div class="profile-hero">
+
+    @if (student) {
+
+      <div class="hero-content">
+
+        <div class="hero-left">
+
+          <!-- AVATAR -->
+          <div class="profile-avatar-wrapper">
+
+            <div class="profile-avatar">
+              <img
+                [src]="
+                  previewUrl
+                    ? previewUrl
+                    : student.usuarioId.fotoPerfil
+                      ? (student.usuarioId.fotoPerfil.startsWith('http')
+                          ? student.usuarioId.fotoPerfil
+                          : 'assets/' + student.usuarioId.fotoPerfil)
+                      : 'assets/default-avatar.png'
+                "
+                alt="Foto perfil"
+              />
+            </div>
+
+            <label class="change-photo-btn">
+              <i class="bi bi-camera-fill"></i>
+              Cambiar foto
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                (change)="onImageSelected($event)"
+              />
+            </label>
+
+          </div>
+
+          <!-- INFO -->
+          <div>
+
+            <p class="mini-title">Estudiante LUMINIS</p>
+
+            <h1>{{ student.usuarioId.nombre }}</h1>
+
+            <p class="hero-subtitle">
+              {{ student.carrera || 'Sin carrera registrada' }}
+              @if (student.universidad) {
+                <span> · {{ student.universidad }}</span>
+              }
+            </p>
+
+            <div class="specialties">
+              @for (area of student.areasInteres; track area._id) {
+                <span class="specialty-chip">
+                  <i class="bi {{ area.icono }}"></i>
+                  {{ area.nombre }}
+                </span>
+              }
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="hero-stats">
+
+          <div class="stat-card">
+            <h2>{{ student.mentoriasActivas }}</h2>
+            <p>Activas</p>
+          </div>
+
+          <div class="stat-card">
+            <h2>{{ student.mentoriasCompletadas }}</h2>
+            <p>Completadas</p>
+          </div>
+
+          <div class="stat-card">
+            <h2>Sem. {{ student.semestre }}</h2>
+            <p>Semestre</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- ALERTAS -->
+  @if (errorMessage) {
+    <div class="custom-alert error">{{ errorMessage }}</div>
+  }
+
+  @if (successMessage) {
+    <div class="custom-alert success">{{ successMessage }}</div>
+  }
+
+  <!-- LOADING -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="spinner-border text-light"></div>
+    </div>
+  }
+
+  <!-- CONTENIDO -->
+  @if (!loading && student) {
+
+    <div class="profile-grid">
+
+      <!-- FORMULARIO -->
+      <div class="profile-card">
+
+        <div class="card-header-section">
+          <p class="mini-title">Información académica</p>
+          <h2>Editar Perfil</h2>
+        </div>
+
+        <form (ngSubmit)="updateProfile()" #profileForm="ngForm">
+
+          <div class="form-grid">
+
+            <!-- ÁREAS DE INTERÉS -->
+            <div class="form-group full-width">
+              <label>Áreas de interés</label>
+              <select
+                multiple
+                class="custom-select"
+                [(ngModel)]="formData.areasInteres"
+                name="areasInteres"
+              >
+                @for (area of areas; track area._id) {
+                  <option [value]="area._id">
+                    {{ area.nombre }}
+                  </option>
+                }
+              </select>
+              <small class="input-hint">Puedes seleccionar varias áreas</small>
+            </div>
+
+            <!-- UNIVERSIDAD -->
+            <div class="form-group">
+              <label>Universidad</label>
+              <input
+                type="text"
+                [(ngModel)]="formData.universidad"
+                name="universidad"
+                placeholder="Ej. UNAM, IPN, TEC..."
+              />
+            </div>
+
+            <!-- CARRERA -->
+            <div class="form-group">
+              <label>Carrera</label>
+              <input
+                type="text"
+                [(ngModel)]="formData.carrera"
+                name="carrera"
+                placeholder="Ej. Ingeniería en Sistemas"
+              />
+            </div>
+
+            <!-- SEMESTRE -->
+            <div class="form-group">
+              <label>Semestre</label>
+              <input
+                type="number"
+                [(ngModel)]="formData.semestre"
+                name="semestre"
+                min="1"
+                max="12"
+              />
+            </div>
+
+            <!-- OBJETIVOS -->
+            <div class="form-group full-width">
+              <label>Objetivos profesionales</label>
+              <textarea
+                rows="5"
+                [(ngModel)]="formData.objetivos"
+                name="objetivos"
+                placeholder="Describe tus metas y lo que esperas de una mentoría..."
+              ></textarea>
+            </div>
+
+          </div>
+
+          <button class="save-btn" type="submit" [disabled]="saving">
+            @if (!saving) { Guardar cambios }
+            @if (saving) {
+              <span class="spinner-border spinner-border-sm me-2"></span>
+              Guardando...
+            }
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+
+        <!-- INFO -->
+        <div class="sidebar-card">
+
+          <h3>Información</h3>
+
+          <div class="info-item">
+            <small>Email</small>
+            <strong>{{ student.usuarioId.email }}</strong>
+          </div>
+
+          <div class="info-item">
+            <small>Universidad</small>
+            <strong>{{ student.universidad || 'No especificada' }}</strong>
+          </div>
+
+          <div class="info-item">
+            <small>Semestre</small>
+            <strong>{{ student.semestre || 0 }}</strong>
+          </div>
+
+          <div class="info-item">
+            <small>Miembro desde</small>
+            <strong>{{ student.createdAt | date:'MMMM yyyy' }}</strong>
+          </div>
+
+        </div>
+
+        <!-- ÁREAS -->
+        <div class="sidebar-card">
+
+          <h3>Áreas de interés</h3>
+
+          @if (!student.areasInteres || student.areasInteres.length === 0) {
+            <p class="empty-text">Sin áreas registradas aún.</p>
+          } @else {
+            <div class="specialties-list">
+              @for (area of student.areasInteres; track area._id) {
+                <div class="specialty-item">
+                  <i class="bi {{ area.icono }}"></i>
+                  <span>{{ area.nombre }}</span>
+                </div>
+              }
+            </div>
+          }
+
+        </div>
+
+        <!-- OBJETIVOS -->
+        @if (student.objetivos) {
+          <div class="sidebar-card">
+            <h3>Objetivos</h3>
+            <p class="objetivos-text">{{ student.objetivos }}</p>
+          </div>
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</section>

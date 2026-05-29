@@ -1,0 +1,124 @@
+<div class="areas-page">
+
+  <div class="page-header">
+
+    <div>
+      <p class="mini-title">
+        Administración
+      </p>
+
+      <h1>
+        Áreas de Especialización
+      </h1>
+    </div>
+
+  </div>
+
+  @if (successMessage) {
+
+    <div class="success-box">
+      {{ successMessage }}
+    </div>
+
+  }
+
+  @if (error) {
+
+    <div class="error-box">
+      {{ error }}
+    </div>
+
+  }
+
+  <!-- FORM ADMIN -->
+
+  @if (isAdmin) {
+
+    <div class="create-card">
+
+      <input
+        type="text"
+        placeholder="Nombre del área"
+        [(ngModel)]="newArea.nombre"
+      >
+
+      <input
+        type="text"
+        placeholder="Descripción"
+        [(ngModel)]="newArea.descripcion"
+      >
+
+      <input
+        type="text"
+        placeholder="Icono Bootstrap (bi-code-slash)"
+        [(ngModel)]="newArea.icono"
+      >
+
+      <button
+        class="create-btn"
+        (click)="createArea()"
+      >
+        <i class="bi bi-plus-circle"></i>
+        Crear Área
+      </button>
+
+    </div>
+
+  }
+
+  <!-- LOADING -->
+
+  @if (loading) {
+
+    <div class="loading">
+      <div class="spinner-border text-light"></div>
+    </div>
+
+  }
+
+  <!-- GRID -->
+
+  <div class="areas-grid">
+
+    @for (area of areas; track area._id) {
+
+      <div class="area-card">
+
+        <div class="icon-box">
+          <i class="bi {{ area.icono }}"></i>
+        </div>
+
+        <h3>
+          {{ area.nombre }}
+        </h3>
+
+        <p>
+          {{ area.descripcion }}
+        </p>
+
+        @if (area.mentoras !== undefined) {
+
+          <div class="mentor-count">
+            {{ area.mentoras }} mentoras
+          </div>
+
+        }
+
+        @if (isAdmin) {
+
+          <button
+            class="delete-btn"
+            (click)="deleteArea(area)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

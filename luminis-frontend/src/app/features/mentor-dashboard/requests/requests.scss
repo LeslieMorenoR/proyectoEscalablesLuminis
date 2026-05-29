@@ -1,0 +1,418 @@
+/* =========================
+   GLOBAL
+========================= */
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(91,33,182,.35) 0%, transparent 30%),
+    radial-gradient(circle at bottom right, rgba(124,58,237,.25) 0%, transparent 30%),
+    #0f172a;
+}
+
+html,
+body,
+app-root {
+  background: #0f172a !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.requests-page {
+  min-height: 100vh;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========================
+   REMOVE BOOTSTRAP WHITE
+========================= */
+
+section,
+.container,
+.container-fluid,
+.bg-light,
+.bg-white,
+.card-body {
+  background: transparent !important;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.gradient-bg {
+  position: relative;
+  overflow: hidden;
+
+  padding: 5rem 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1e1b4b 0%,
+      #312e81 40%,
+      #7c3aed 100%
+    ) !important;
+
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.gradient-bg::before {
+  content: '';
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+
+  top: -250px;
+  right: -120px;
+
+  background: rgba(255,255,255,.05);
+
+  filter: blur(40px);
+}
+
+.gradient-bg h1 {
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.gradient-bg .lead {
+  color: #cbd5e1;
+  max-width: 700px;
+}
+
+.gradient-bg i {
+  opacity: .9;
+
+  background: linear-gradient(
+    135deg,
+    #c4b5fd,
+    #ffffff
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters-section {
+  padding: 2rem 0;
+
+  border-bottom: 1px solid rgba(255,255,255,.08);
+
+  background: transparent !important;
+}
+
+.filters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  border-radius: 24px;
+
+  background: rgba(255,255,255,.05);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  backdrop-filter: blur(18px);
+}
+
+.filters-wrapper .btn {
+  border-radius: 14px;
+
+  padding: .85rem 1.4rem;
+
+  font-weight: 700;
+
+  transition: .25s ease;
+}
+
+/* ACTIVE BUTTONS */
+
+.btn-dark,
+.btn-warning,
+.btn-primary,
+.btn-success,
+.btn-danger {
+  border: none !important;
+
+  color: white !important;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-dark {
+  background: linear-gradient(
+    135deg,
+    #111827,
+    #1f2937
+  ) !important;
+}
+
+.btn-warning {
+  background: linear-gradient(
+    135deg,
+    #f59e0b,
+    #f97316
+  ) !important;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6
+  ) !important;
+}
+
+.btn-success {
+  background: linear-gradient(
+    135deg,
+    #10b981,
+    #059669
+  ) !important;
+}
+
+.btn-danger {
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #dc2626
+  ) !important;
+}
+
+/* OUTLINE BUTTONS */
+
+.btn-outline-dark,
+.btn-outline-warning,
+.btn-outline-primary,
+.btn-outline-success,
+.btn-outline-danger {
+  background: rgba(255,255,255,.04);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  color: #cbd5e1;
+
+  transition: .25s ease;
+}
+
+.btn-outline-dark:hover,
+.btn-outline-warning:hover,
+.btn-outline-primary:hover,
+.btn-outline-success:hover,
+.btn-outline-danger:hover {
+  background: rgba(255,255,255,.08);
+
+  transform: translateY(-2px);
+
+  color: white;
+}
+
+/* =========================
+   REQUESTS SECTION
+========================= */
+
+.requests-section {
+  padding: 4rem 0;
+  background: transparent !important;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  background: rgba(255,255,255,.06) !important;
+
+  border: 1px solid rgba(255,255,255,.08) !important;
+
+  border-radius: 28px !important;
+
+  backdrop-filter: blur(20px);
+
+  box-shadow: 0 10px 35px rgba(0,0,0,.25);
+
+  transition: .3s ease;
+
+  color: white;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+
+  border-color: rgba(139,92,246,.35);
+
+  box-shadow: 0 20px 50px rgba(139,92,246,.12);
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.card h3,
+.card h5,
+.card h6,
+.card strong,
+.fw-semibold {
+  color: white !important;
+}
+
+.card p,
+.card small,
+.card .text-muted {
+  color: #cbd5e1 !important;
+}
+
+/* =========================
+   AVATAR
+========================= */
+
+.object-fit-cover {
+  object-fit: cover;
+
+  border: 3px solid rgba(255,255,255,.08);
+
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+  font-size: .75rem;
+
+  font-weight: 700;
+
+  letter-spacing: .4px;
+}
+
+.badge-warning {
+  background: rgba(245,158,11,.2) !important;
+  color: #fbbf24 !important;
+}
+
+.badge-primary {
+  background: rgba(99,102,241,.2) !important;
+  color: #a5b4fc !important;
+}
+
+.badge-success {
+  background: rgba(16,185,129,.2) !important;
+  color: #6ee7b7 !important;
+}
+
+.badge-danger {
+  background: rgba(239,68,68,.2) !important;
+  color: #fca5a5 !important;
+}
+
+/* =========================
+   DATE BLOCKS
+========================= */
+
+.mb-4 .d-flex.justify-content-between {
+  background: rgba(255,255,255,.04);
+
+  border: 1px solid rgba(255,255,255,.05);
+
+  border-radius: 14px;
+
+  padding: .8rem 1rem;
+
+  margin-bottom: .7rem;
+}
+
+/* =========================
+   ALERT
+========================= */
+
+.alert-danger {
+  background: rgba(239,68,68,.12) !important;
+
+  border: 1px solid rgba(239,68,68,.25) !important;
+
+  color: #fecaca !important;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-success,
+.btn-primary.w-100,
+.btn-outline-danger {
+  border-radius: 14px;
+
+  font-weight: 700;
+}
+
+.btn-outline-danger {
+  background: rgba(239,68,68,.08);
+
+  border: 1px solid rgba(239,68,68,.25);
+
+  color: #f87171;
+}
+
+.btn-outline-danger:hover {
+  background: rgba(239,68,68,.16);
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.display-1.text-muted {
+  color: #475569 !important;
+}
+
+/* =========================
+   SPINNER
+========================= */
+
+.spinner-border {
+  color: #8b5cf6 !important;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+  .gradient-bg {
+    text-align: center;
+  }
+
+  .gradient-bg h1 {
+    font-size: 2.3rem;
+  }
+
+  .gradient-bg .display-1 {
+    font-size: 4rem;
+    margin-top: 1rem;
+  }
+
+  .filters-wrapper {
+    justify-content: center;
+  }
+
+}

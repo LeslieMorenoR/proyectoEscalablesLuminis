@@ -1,0 +1,226 @@
+<div class="register-page min-vh-100 d-flex align-items-center py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card card-luminis border-0 shadow-lg">
+          <div class="card-body p-5">
+            <!-- Logo y Título -->
+            <div class="text-center mb-4">
+              <h2 class="mb-2">
+                <span class="text-primary-luminis">LUMI</span><span class="text-secondary-luminis">NIS</span>
+              </h2>
+              <p class="text-muted">Crea tu cuenta y comienza tu camino</p>
+            </div>
+
+            <!-- Mensaje de error -->
+            @if (errorMessage) {
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                {{ errorMessage }}
+                <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+              </div>
+            }
+
+            <!-- Formulario -->
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <!-- Nombre Completo -->
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre Completo</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-person"></i>
+                  </span>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="nombre"
+                    formControlName="nombre"
+                    placeholder="María García López"
+                    [class.is-invalid]="f['nombre'].invalid && f['nombre'].touched">
+                </div>
+                @if (f['nombre'].invalid && f['nombre'].touched) {
+                  <div class="invalid-feedback d-block">
+                    @if (f['nombre'].errors?.['required']) {
+                      El nombre es requerido
+                    }
+                    @if (f['nombre'].errors?.['minlength']) {
+                      El nombre debe tener al menos 3 caracteres
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email"
+                    formControlName="email"
+                    placeholder="tu@email.com"
+                    [class.is-invalid]="f['email'].invalid && f['email'].touched">
+                </div>
+                @if (f['email'].invalid && f['email'].touched) {
+                  <div class="invalid-feedback d-block">
+                    @if (f['email'].errors?.['required']) {
+                      El correo electrónico es requerido
+                    }
+                    @if (f['email'].errors?.['email']) {
+                      Ingresa un correo electrónico válido
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Rol -->
+              <div class="mb-3">
+                <label class="form-label">Tipo de Cuenta</label>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <input 
+                      type="radio" 
+                      class="btn-check" 
+                      name="rol" 
+                      id="rol-estudiante" 
+                      formControlName="rol"
+                      [value]="UserRole.ESTUDIANTE">
+                    <label class="btn btn-outline-primary w-100 py-3" for="rol-estudiante">
+                      <i class="bi bi-mortarboard d-block fs-3 mb-2"></i>
+                      <strong>Estudiante</strong>
+                      <small class="d-block text-muted">Busco mentoría</small>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <input 
+                      type="radio" 
+                      class="btn-check" 
+                      name="rol" 
+                      id="rol-mentora" 
+                      formControlName="rol"
+                      [value]="UserRole.MENTORA">
+                    <label class="btn btn-outline-secondary w-100 py-3" for="rol-mentora">
+                      <i class="bi bi-person-badge d-block fs-3 mb-2"></i>
+                      <strong>Mentora</strong>
+                      <small class="d-block text-muted">Quiero guiar</small>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contraseña -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-lock"></i>
+                  </span>
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    class="form-control" 
+                    id="password"
+                    formControlName="password"
+                    placeholder="••••••••"
+                    [class.is-invalid]="f['password'].invalid && f['password'].touched">
+                  <button 
+                    class="btn btn-outline-secondary" 
+                    type="button"
+                    (click)="togglePasswordVisibility()">
+                    <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                  </button>
+                </div>
+                @if (f['password'].invalid && f['password'].touched) {
+                  <div class="invalid-feedback d-block">
+                    @if (f['password'].errors?.['required']) {
+                      La contraseña es requerida
+                    }
+                    @if (f['password'].errors?.['minlength']) {
+                      La contraseña debe tener al menos 6 caracteres
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Confirmar Contraseña -->
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-lock-fill"></i>
+                  </span>
+                  <input 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    class="form-control" 
+                    id="confirmPassword"
+                    formControlName="confirmPassword"
+                    placeholder="••••••••"
+                    [class.is-invalid]="f['confirmPassword'].invalid && f['confirmPassword'].touched">
+                  <button 
+                    class="btn btn-outline-secondary" 
+                    type="button"
+                    (click)="toggleConfirmPasswordVisibility()">
+                    <i class="bi" [class.bi-eye]="!showConfirmPassword" [class.bi-eye-slash]="showConfirmPassword"></i>
+                  </button>
+                </div>
+                @if (f['confirmPassword'].invalid && f['confirmPassword'].touched) {
+                  <div class="invalid-feedback d-block">
+                    @if (f['confirmPassword'].errors?.['required']) {
+                      Debes confirmar tu contraseña
+                    }
+                    @if (f['confirmPassword'].errors?.['passwordMismatch']) {
+                      Las contraseñas no coinciden
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Términos -->
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="terms" required>
+                <label class="form-check-label small" for="terms">
+                  Acepto los <a routerLink="/terms" class="text-primary-luminis">Términos y Condiciones</a> 
+                  y la <a routerLink="/privacy" class="text-primary-luminis">Política de Privacidad</a>
+                </label>
+              </div>
+
+              <!-- Botón Submit -->
+              <button 
+                type="submit" 
+                class="btn btn-luminis-primary w-100 py-2 mb-3"
+                [disabled]="loading || registerForm.invalid">
+                @if (loading) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Creando cuenta...
+                } @else {
+                  Registrarse
+                }
+              </button>
+
+              <!-- Login -->
+              <div class="text-center">
+                <p class="text-muted mb-0">
+                  ¿Ya tienes cuenta? 
+                  <a routerLink="/login" class="text-primary-luminis fw-bold text-decoration-none">
+                    Inicia sesión
+                  </a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Volver a Inicio -->
+        <div class="text-center mt-4">
+          <a routerLink="/" class="text-muted text-decoration-none">
+            <i class="bi bi-arrow-left me-2"></i>
+            Volver al inicio
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

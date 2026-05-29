@@ -1,0 +1,150 @@
+<div class="users-page">
+
+  <div class="page-header">
+    <div>
+      <p class="mini-title">Administración</p>
+      <h1>Gestión de Usuarios</h1>
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters-card">
+
+    <input
+      type="text"
+      placeholder="Buscar usuario..."
+      [(ngModel)]="searchTerm"
+      (input)="filterUsers()"
+    >
+
+    <select [(ngModel)]="filterRole" (change)="filterUsers()">
+      <option value="">Todos los roles</option>
+      <option value="estudiante">Estudiantes</option>
+      <option value="mentora">Mentoras</option>
+      <option value="administrador">Admins</option>
+    </select>
+
+    <button class="reset-btn" (click)="resetFilters()">
+      Limpiar
+    </button>
+
+  </div>
+
+  <!-- TABLA -->
+  <div class="table-card">
+
+    @if (loading) {
+
+      <div class="loading">
+        <div class="spinner-border"></div>
+      </div>
+
+    } @else {
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (user of filteredUsers; track user._id) {
+
+            <tr>
+
+              <td>
+                <div class="user-info">
+
+                  @if (user.fotoPerfil) {
+
+                    <img
+                      [src]="user.fotoPerfil.includes('http')
+                        ? user.fotoPerfil
+                        : 'assets/' + user.fotoPerfil"
+                      alt="avatar"
+                    >
+
+                  } @else {
+
+                    <div class="avatar-placeholder">
+                      {{ user.nombre.charAt(0).toUpperCase() }}
+                    </div>
+
+                  }
+
+                  <div>
+                    <strong>{{ user.nombre }}</strong>
+                    <p>{{ user.email }}</p>
+                  </div>
+
+                </div>
+              </td>
+
+              <td>
+                <span class="role-chip">
+                  {{ user.rol }}
+                </span>
+              </td>
+
+              <td>
+
+                @if (user.activo) {
+                  <span class="status active">
+                    Activo
+                  </span>
+                } @else {
+                  <span class="status inactive">
+                    Inactivo
+                  </span>
+                }
+
+              </td>
+
+              <td>
+
+                <div class="actions">
+
+                  <!-- ✅ FIX CRÍTICO: optional chaining -->
+                  @if (
+                    user.rol === 'mentora' &&
+                    user.mentorProfile?.aprobada === false
+                  ) {
+                    <button
+                      class="btn btn-success btn-sm"
+                      (click)="approveMentor(user)"
+                      title="Aprobar mentora"
+                    >
+                      <i class="bi bi-check-circle"></i>
+                    </button>
+                  }
+
+                  <button
+                    class="danger-btn"
+                    (click)="deleteUser(user)"
+                  >
+                    Eliminar
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </div>
+
+</div>

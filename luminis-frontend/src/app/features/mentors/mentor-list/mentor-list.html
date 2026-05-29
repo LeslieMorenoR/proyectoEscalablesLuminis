@@ -1,0 +1,41 @@
+<div class="mentors-page">
+
+  <!-- HERO -->
+  <section class="mentors-hero">
+    <div class="hero-content">
+
+      <span class="mini-title">Directorio de mentoras</span>
+
+      <h1>Conoce a nuestras<br><span class="highlight">mentoras</span></h1>
+
+      <p class="hero-subtitle">
+        Profesionales experimentadas listas para guiarte en tu desarrollo profesional en STEM.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- LIST -->
+  <section class="mentors-section">
+
+    @if (!mentoras || mentoras.length === 0) {
+
+      <div class="empty-state">
+        <p>No hay mentoras disponibles en este momento.</p>
+      </div>
+
+    } @else {
+
+      <div class="mentor-grid">
+
+        @for (mentora of mentoras; track mentora._id) {
+          <app-mentor-card [mentora]="mentora" />
+        }
+
+      </div>
+
+    }
+
+  </section>
+
+</div>

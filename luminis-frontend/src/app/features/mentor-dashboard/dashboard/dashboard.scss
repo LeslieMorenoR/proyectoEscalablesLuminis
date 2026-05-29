@@ -1,0 +1,263 @@
+body {
+  background: #0f172a;
+}
+
+/* HERO */
+
+.dashboard-hero {
+  background: linear-gradient(135deg,#1e1b4b,#0f172a);
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 4px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.3);
+  }
+
+  .lead {
+    color: #cbd5e1;
+  }
+
+  .badge {
+    border-radius: 999px;
+
+    font-weight: 500;
+  }
+
+  .bg-light {
+    background: rgba(255,255,255,.12) !important;
+    color: white !important;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .bg-warning {
+    background: linear-gradient(135deg,#f59e0b,#f97316) !important;
+    color: white !important;
+  }
+
+  .bg-success {
+    background: rgba(34,197,94,.2) !important;
+    color: #4ade80 !important;
+  }
+
+  .bg-danger {
+    background: rgba(239,68,68,.2) !important;
+    color: #f87171 !important;
+  }
+}
+
+/* STATS */
+
+.stats-section {
+  background: #111827 !important;
+
+  .card-luminis {
+    background: rgba(255,255,255,0.06);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: 24px;
+
+    transition: .3s ease;
+
+    color: white;
+
+    &:hover {
+      transform: translateY(-8px);
+
+      border-color: rgba(139,92,246,.4);
+
+      box-shadow: 0 15px 35px rgba(139,92,246,.2);
+    }
+
+    h2 {
+      color: #a78bfa;
+    }
+
+    p {
+      color: #cbd5e1 !important;
+    }
+  }
+
+  .stat-icon {
+    font-size: 2.7rem;
+
+    color: #8b5cf6;
+  }
+}
+
+/* CONTENT */
+
+.dashboard-content {
+  background: #0f172a !important;
+  min-height: 100vh;
+}
+
+/* GENERAL CARDS */
+
+.card-luminis {
+  background: rgba(255,255,255,0.06) !important;
+
+  border: 1px solid rgba(255,255,255,0.08) !important;
+
+  backdrop-filter: blur(20px);
+
+  border-radius: 24px;
+
+  color: white;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
+  transition: .3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .text-muted {
+    color: #94a3b8 !important;
+  }
+}
+
+/* REQUESTS */
+
+.request-item {
+  padding: 1.5rem 0;
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  p {
+    color: #e2e8f0;
+  }
+}
+
+.request-item:last-child {
+  border-bottom: none;
+}
+
+/* ACTIVE MENTORSHIP */
+
+.active-mentorship-card {
+  padding: 1.2rem;
+
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  transition: .3s ease;
+
+  &:hover {
+    border-color: rgba(139,92,246,.4);
+
+    transform: translateY(-3px);
+  }
+
+  h6 {
+    color: white;
+  }
+
+  small {
+    color: #94a3b8;
+  }
+}
+
+/* AVATARS */
+
+.student-avatar {
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 2px solid rgba(255,255,255,0.08);
+}
+
+/* BUTTONS */
+
+.btn-success {
+  background: linear-gradient(135deg,#10b981,#059669);
+
+  border: none;
+
+  border-radius: 12px;
+
+  padding: .7rem 1rem;
+}
+
+.btn-outline-danger {
+  border: 1px solid rgba(239,68,68,.3);
+
+  background: rgba(239,68,68,.12);
+
+  color: #f87171;
+
+  border-radius: 12px;
+
+  padding: .7rem 1rem;
+
+  &:hover {
+    background: rgba(239,68,68,.2);
+  }
+}
+
+/* SPECIALTIES */
+
+.badge.bg-primary {
+  background: rgba(139,92,246,.18) !important;
+
+  color: #c4b5fd;
+
+  border: 1px solid rgba(139,92,246,.3);
+
+  border-radius: 999px;
+
+  padding: .7rem 1rem;
+}
+
+/* EMPTY STATES */
+
+.display-1.text-muted {
+  color: #475569 !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .dashboard-hero {
+    text-align: center;
+
+    .d-flex {
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+    }
+  }
+
+  .stats-section {
+
+    .card-luminis h2 {
+      font-size: 2rem;
+    }
+
+  }
+}

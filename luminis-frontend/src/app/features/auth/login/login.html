@@ -1,0 +1,140 @@
+<div class="login-page min-vh-100 d-flex align-items-center py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="card card-luminis border-0 shadow-lg">
+          <div class="card-body p-5">
+            <!-- Logo y Título -->
+            <div class="text-center mb-4">
+              <h2 class="mb-2">
+                <span class="text-primary-luminis">LUMI</span><span class="text-secondary-luminis">NIS</span>
+              </h2>
+              <p class="text-muted">Inicia sesión en tu cuenta</p>
+            </div>
+
+            <!-- Mensaje de error -->
+            @if (errorMessage) {
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                {{ errorMessage }}
+                <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+              </div>
+            }
+
+            <!-- Formulario -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <!-- Email -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email"
+                    formControlName="email"
+                    placeholder="tu@email.com"
+                    [class.is-invalid]="f['email'].invalid && f['email'].touched">
+                </div>
+                @if (f['email'].invalid && f['email'].touched) {
+                  <div class="invalid-feedback d-block">
+                    @if (f['email'].errors?.['required']) {
+                      El correo electrónico es requerido
+                    }
+                    @if (f['email'].errors?.['email']) {
+                      Ingresa un correo electrónico válido
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Contraseña -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-lock"></i>
+                  </span>
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    class="form-control" 
+                    id="password"
+                    formControlName="password"
+                    placeholder="••••••••"
+                    [class.is-invalid]="f['password'].invalid && f['password'].touched">
+                  <button 
+                    class="btn btn-outline-secondary" 
+                    type="button"
+                    (click)="togglePasswordVisibility()">
+                    <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                  </button>
+                </div>
+                @if (f['password'].invalid && f['password'].touched) {
+                  <div class="invalid-feedback d-block">
+                    @if (f['password'].errors?.['required']) {
+                      La contraseña es requerida
+                    }
+                    @if (f['password'].errors?.['minlength']) {
+                      La contraseña debe tener al menos 6 caracteres
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Recordar y Olvidaste -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="remember">
+                  <label class="form-check-label" for="remember">
+                    Recordarme
+                  </label>
+                </div>
+                <a routerLink="/forgot-password" class="text-primary-luminis text-decoration-none">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+
+              <!-- Botón Submit -->
+              <button 
+                type="submit" 
+                class="btn btn-luminis-primary w-100 py-2 mb-3"
+                [disabled]="loading || loginForm.invalid">
+                @if (loading) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Iniciando sesión...
+                } @else {
+                  Iniciar Sesión
+                }
+              </button>
+
+              <!-- Divider -->
+              <div class="divider my-4">
+                <span class="divider-text">O</span>
+              </div>
+
+              <!-- Registro -->
+              <div class="text-center">
+                <p class="text-muted mb-0">
+                  ¿No tienes cuenta? 
+                  <a routerLink="/register" class="text-primary-luminis fw-bold text-decoration-none">
+                    Regístrate aquí
+                  </a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Volver a Inicio -->
+        <div class="text-center mt-4">
+          <a routerLink="/" class="text-muted text-decoration-none">
+            <i class="bi bi-arrow-left me-2"></i>
+            Volver al inicio
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

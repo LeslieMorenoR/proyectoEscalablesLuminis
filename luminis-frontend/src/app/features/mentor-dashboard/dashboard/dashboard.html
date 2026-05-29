@@ -1,0 +1,405 @@
+@if (loading) {
+
+<div class="vh-100 d-flex justify-content-center align-items-center">
+
+  <div class="spinner-border text-primary"></div>
+
+</div>
+
+} @else {
+
+<!-- HERO -->
+<section class="dashboard-hero gradient-bg text-white py-5">
+
+  <div class="container">
+
+    <div class="row align-items-center">
+
+      <div class="col-lg-8">
+
+        <div class="d-flex align-items-center gap-4 flex-wrap">
+
+          <!-- FOTO MENTORA -->
+          <img
+            [src]="
+              mentor.usuarioId?.fotoPerfil?.includes('http')
+                ? mentor.usuarioId?.fotoPerfil
+                : (
+                    mentor.usuarioId?.fotoPerfil
+                      ? 'assets/' + mentor.usuarioId?.fotoPerfil
+                      : 'assets/default-avatar.png'
+                  )
+            "
+            alt="Foto perfil"
+            class="rounded-circle shadow"
+            width="120"
+            height="120"
+            style="object-fit: cover;"
+          >
+
+          <div>
+
+            <h1 class="fw-bold display-5 mb-2">
+              Bienvenida, {{ mentor.usuarioId.nombre }}
+            </h1>
+
+            <p class="lead mb-3">
+              Inspira y guía a nuevas generaciones de mujeres STEM.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+
+              <span class="badge bg-light text-dark px-3 py-2">
+                <i class="bi bi-briefcase"></i>
+                {{ mentor.puesto }}
+              </span>
+
+              <span class="badge bg-warning text-dark px-3 py-2">
+                <i class="bi bi-star-fill"></i>
+                {{ mentor.calificacionPromedio }}
+              </span>
+
+              <span
+                class="badge px-3 py-2"
+                [ngClass]="mentor.disponibilidad ? 'bg-success' : 'bg-danger'"
+              >
+                <i class="bi bi-circle-fill"></i>
+
+                {{
+                  mentor.disponibilidad
+                    ? 'Disponible'
+                    : 'No disponible'
+                }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- STATS -->
+<section class="stats-section py-5 bg-white">
+
+  <div class="container">
+
+    <div class="row g-4 text-center">
+
+      <div class="col-md-3 col-6">
+
+        <div class="card card-luminis border-0 p-4 h-100">
+
+          <i class="bi bi-people-fill stat-icon"></i>
+
+          <h2 class="fw-bold text-primary-luminis mt-3">
+            {{ stats.totalMentorias }}
+          </h2>
+
+          <p class="text-muted mb-0">
+            Mentorías
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-3 col-6">
+
+        <div class="card card-luminis border-0 p-4 h-100">
+
+          <i class="bi bi-envelope-heart stat-icon"></i>
+
+          <h2 class="fw-bold text-primary-luminis mt-3">
+            {{ stats.solicitudesPendientes }}
+          </h2>
+
+          <p class="text-muted mb-0">
+            Solicitudes
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-3 col-6">
+
+        <div class="card card-luminis border-0 p-4 h-100">
+
+          <i class="bi bi-star-fill stat-icon"></i>
+
+          <h2 class="fw-bold text-primary-luminis mt-3">
+            {{ stats.rating }}
+          </h2>
+
+          <p class="text-muted mb-0">
+            Calificación
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-3 col-6">
+
+        <div class="card card-luminis border-0 p-4 h-100">
+
+          <i class="bi bi-clock-history stat-icon"></i>
+
+          <h2 class="fw-bold text-primary-luminis mt-3">
+            {{ stats.activas }}
+          </h2>
+
+          <p class="text-muted mb-0">
+            Activas
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CONTENT -->
+<section class="dashboard-content py-5 bg-light">
+
+  <div class="container">
+
+    <div class="row g-4">
+
+      <!-- SOLICITUDES -->
+      <div class="col-lg-8">
+
+        <div class="card card-luminis border-0">
+
+          <div class="card-body p-4">
+
+            <div
+              class="d-flex justify-content-between align-items-center mb-4"
+            >
+
+              <h3 class="fw-bold mb-0">
+                Solicitudes Pendientes
+              </h3>
+
+            </div>
+
+            @if (solicitudes.length === 0) {
+
+              <div class="text-center py-5">
+
+                <i class="bi bi-inbox display-1 text-muted"></i>
+
+                <p class="text-muted mt-3">
+                  No tienes solicitudes pendientes
+                </p>
+
+              </div>
+
+            }
+
+            @for (solicitud of solicitudes; track solicitud._id) {
+
+              <div class="request-item">
+
+                <div
+                  class="d-flex justify-content-between align-items-start flex-wrap gap-3"
+                >
+
+                  <div class="d-flex gap-3">
+
+                    <!-- FOTO ESTUDIANTE -->
+                    <img
+                      [src]="
+                        solicitud.estudianteId.usuarioId?.fotoPerfil?.includes('http')
+                          ? solicitud.estudianteId.usuarioId?.fotoPerfil
+                          : (
+                              solicitud.estudianteId.usuarioId?.fotoPerfil
+                                ? 'assets/' + solicitud.estudianteId.usuarioId?.fotoPerfil
+                                : 'assets/default-avatar.png'
+                            )
+                      "
+                      class="student-avatar rounded-circle"
+                      style="width: 60px; height: 60px; object-fit: cover;"
+                    >
+
+                    <div>
+
+                      <h5 class="fw-semibold mb-1">
+                        {{
+                          solicitud.estudianteId.usuarioId.nombre
+                        }}
+                      </h5>
+
+                      <p class="text-muted small mb-2">
+
+                        {{
+                          solicitud.estudianteId.carrera
+                        }}
+
+                        ·
+
+                        {{
+                          solicitud.estudianteId.universidad
+                        }}
+
+                      </p>
+
+                      <p class="mb-0">
+                        {{ solicitud.mensaje }}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div class="d-flex gap-2">
+
+                    <button
+                      class="btn btn-success"
+                      (click)="acceptRequest(solicitud._id)"
+                    >
+                      <i class="bi bi-check-lg"></i>
+                    </button>
+
+                    <button
+                      class="btn btn-outline-danger"
+                      (click)="rejectRequest(solicitud._id)"
+                    >
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="col-lg-4">
+
+        <!-- MENTORÍAS ACTIVAS -->
+        <div class="card card-luminis border-0 mb-4">
+
+          <div class="card-body p-4">
+
+            <h4 class="fw-bold mb-4">
+              Mentorías Activas
+            </h4>
+
+            @if (mentoriasActivas.length === 0) {
+
+              <p class="text-muted">
+                No tienes mentorías activas
+              </p>
+
+            }
+
+            @for (
+              mentoria of mentoriasActivas;
+              track mentoria._id
+            ) {
+
+              <div class="active-mentorship-card mb-3">
+
+                <div class="d-flex align-items-center gap-3">
+
+                  <!-- FOTO ESTUDIANTE -->
+                  <img
+                    [src]="
+                      mentoria.estudianteId.usuarioId?.fotoPerfil?.includes('http')
+                        ? mentoria.estudianteId.usuarioId?.fotoPerfil
+                        : (
+                            mentoria.estudianteId.usuarioId?.fotoPerfil
+                              ? 'assets/' + mentoria.estudianteId.usuarioId?.fotoPerfil
+                              : 'assets/default-avatar.png'
+                          )
+                    "
+                    class="student-avatar rounded-circle"
+                    style="width: 55px; height: 55px; object-fit: cover;"
+                  >
+
+                  <div>
+
+                    <h6 class="mb-1">
+                      {{
+                        mentoria.estudianteId.usuarioId.nombre
+                      }}
+                    </h6>
+
+                    <small class="text-muted">
+                      {{ mentoria.estudianteId.carrera }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+        <!-- ESPECIALIDADES -->
+        <div class="card card-luminis border-0">
+
+          <div class="card-body p-4">
+
+            <h4 class="fw-bold mb-4">
+              Especialidades
+            </h4>
+
+            <div class="d-flex flex-wrap gap-2">
+
+              @for (
+                area of mentor.especialidades;
+                track area._id
+              ) {
+
+                <span class="badge bg-primary px-3 py-2">
+
+                  <i class="bi {{ area.icono }}"></i>
+
+                  {{ area.nombre }}
+
+                </span>
+
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+}

@@ -1,0 +1,157 @@
+@if (loading) {
+
+<div class="loading-screen">
+  <div class="spinner-border text-light"></div>
+</div>
+
+} @else {
+
+<div class="requests-page">
+
+  <!-- HERO -->
+  <section class="hero-section">
+
+    <div class="hero-content">
+
+      <span class="mini-title">
+        Gestión de mentorías
+      </span>
+
+      <h1>
+        Mis solicitudes
+      </h1>
+
+      <p class="hero-subtitle">
+        Consulta el estado de tus solicitudes de mentoría y da seguimiento a tus conexiones profesionales.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- REQUESTS -->
+
+  <section class="requests-grid">
+
+    @if (!requests || requests.length === 0) {
+
+      <div class="glass-card empty-card">
+
+        <h3>
+          No tienes solicitudes registradas
+        </h3>
+
+        <p>
+          Explora mentoras disponibles y envía tu primera solicitud.
+        </p>
+
+      </div>
+
+    } @else {
+
+      @for (request of requests; track request._id) {
+
+        <div class="glass-card request-card">
+
+          <div class="request-top">
+
+            <div class="mentor-info">
+
+              <img
+                [src]="
+                  request.mentoraId.usuarioId.fotoPerfil
+                    ? (request.mentoraId.usuarioId.fotoPerfil.startsWith('http')
+                        ? request.mentoraId.usuarioId.fotoPerfil
+                        : 'assets/' + request.mentoraId.usuarioId.fotoPerfil)
+                    : 'assets/default-avatar.png'
+                "
+                alt="Mentora"
+                class="mentor-avatar"
+              />
+
+              <div>
+
+                <h3>
+                  {{ request.mentoraId.usuarioId.nombre }}
+                </h3>
+
+                <p>
+                  @if (request.mentoraId.especialidades.length > 0) {
+  {{ request.mentoraId.especialidades[0].nombre }}
+}
+                </p>
+
+              </div>
+
+            </div>
+
+            <span
+              class="status-chip"
+              [ngClass]="getStatusClass(request.estado)"
+            >
+              {{ request.estado }}
+            </span>
+
+          </div>
+
+          <div class="request-body">
+
+            <div class="info-block">
+
+              <label>
+                Fecha de solicitud
+              </label>
+
+              <p>
+                {{ request.fechaSolicitud | date:'dd/MM/yyyy' }}
+              </p>
+
+            </div>
+
+            @if (request.mensaje) {
+
+              <div class="info-block">
+
+                <label>
+                  Mensaje
+                </label>
+
+                <p>
+                  {{ request.mensaje }}
+                </p>
+
+              </div>
+
+            }
+
+            @if (request.fechaMentoria) {
+
+              <div class="info-block">
+
+                <label>
+                  Sesión programada
+                </label>
+
+                <p>
+                  {{ request.fechaMentoria | date:'dd/MM/yyyy - HH:mm' }}
+                </p>
+
+              </div>
+
+            }
+
+          </div>
+
+          
+
+        </div>
+
+      }
+
+    }
+
+  </section>
+
+</div>
+
+}

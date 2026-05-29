@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════════════════
+   LUMINIS — Mentor List
+   ═══════════════════════════════════════════════════════ */
+
+.mentors-page {
+  min-height: 100vh;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at top left,    #312e81 0%, transparent 30%),
+    radial-gradient(circle at bottom right, #7c3aed 0%, transparent 30%),
+    #0f172a;
+  color: white;
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+
+.mentors-hero {
+  margin-bottom: 3rem;
+}
+
+.hero-content {
+  padding: 3rem 2.5rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  text-align: center;
+}
+
+.mini-title {
+  display: inline-block;
+  color: #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Grid ─────────────────────────────────────────────── */
+
+.mentors-section {
+  padding: 0;
+}
+
+.mentor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── Empty ────────────────────────────────────────────── */
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #cbd5e1;
+  font-size: 1.1rem;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .mentors-page {
+    padding: 1rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .mentor-grid {
+    grid-template-columns: 1fr;
+  }
+}

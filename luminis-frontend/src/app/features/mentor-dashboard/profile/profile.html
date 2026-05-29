@@ -1,0 +1,490 @@
+<section class="mentor-profile-page">
+
+  <!-- HEADER -->
+  <div class="profile-hero">
+
+    @if (mentor) {
+
+      <div class="hero-content">
+
+        <div class="hero-left">
+
+          <!-- FOTO -->
+          <div class="profile-avatar-wrapper">
+
+            <div class="profile-avatar">
+
+              <img
+                [src]="
+                      mentor.usuarioId?.fotoPerfil?.includes('http')
+                        ? mentor.usuarioId?.fotoPerfil
+                        : (
+                            mentor.usuarioId?.fotoPerfil
+                              ? 'assets/' + mentor.usuarioId?.fotoPerfil
+                              : 'assets/default-avatar.png'
+                          )
+                    "
+                alt="Foto perfil"
+              >
+
+            </div>
+
+            <!-- BOTÓN CAMBIAR FOTO -->
+            <label class="change-photo-btn">
+
+              <i class="bi bi-camera-fill"></i>
+              Cambiar foto
+
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                (change)="onImageSelected($event)"
+              >
+
+            </label>
+
+          </div>
+
+          <!-- INFO -->
+          <div>
+
+            <p class="mini-title">
+              Mentora LUMINIS
+            </p>
+
+            <h1>
+              {{ mentor.usuarioId?.nombre }}
+            </h1>
+
+            <p class="hero-subtitle">
+
+              {{ mentor.puesto || 'Mentora Profesional' }}
+
+              @if (mentor.empresa) {
+                <span> · {{ mentor.empresa }}</span>
+              }
+
+            </p>
+
+            <!-- ESPECIALIDADES -->
+            <div class="specialties">
+
+              @for (area of mentor.especialidades; track area._id) {
+
+                <span class="specialty-chip">
+                  <i class="bi {{ area.icono }}"></i>
+                  {{ area.nombre }}
+                </span>
+
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="hero-stats">
+
+          <div class="stat-card">
+
+            <h2>
+              {{ mentor.totalMentorias }}
+            </h2>
+
+            <p>
+              Mentorías
+            </p>
+
+          </div>
+
+          <div class="stat-card">
+
+            <div class="stars">
+
+              @for (
+                star of getStarsArray(mentor.calificacionPromedio);
+                track $index
+              ) {
+                <i class="bi bi-star-fill"></i>
+              }
+
+            </div>
+
+            <p>
+              {{ mentor.calificacionPromedio }}/5
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- ALERTAS -->
+  @if (errorMessage) {
+
+    <div class="custom-alert error">
+      {{ errorMessage }}
+    </div>
+
+  }
+
+  @if (successMessage) {
+
+    <div class="custom-alert success">
+      {{ successMessage }}
+    </div>
+
+  }
+
+  <!-- LOADING -->
+  @if (loading) {
+
+    <div class="loading-container">
+      <div class="spinner-border text-light"></div>
+    </div>
+
+  }
+
+  <!-- CONTENIDO -->
+  @if (!loading && mentor) {
+
+    <div class="profile-grid">
+
+      <!-- FORM -->
+      <div class="profile-card">
+
+        <div class="card-header">
+
+          <div>
+            <p class="mini-title">
+              Perfil Profesional
+            </p>
+
+            <h2>
+              Editar Perfil
+            </h2>
+          </div>
+
+        </div>
+
+        <form (ngSubmit)="updateProfile()">
+
+          <div class="form-grid">
+
+            <!-- ESPECIALIDADES -->
+            <div class="form-group full-width">
+
+              <label>
+                Especialidades
+              </label>
+
+              <select
+                multiple
+                class="custom-select"
+                [(ngModel)]="formData.especialidades"
+                name="especialidades"
+              >
+
+                @for (area of areas; track area._id) {
+
+                  <option [value]="area._id">
+                    {{ area.nombre }}
+                  </option>
+
+                }
+
+              </select>
+
+              <small class="input-hint">
+                Puedes seleccionar varias áreas
+              </small>
+
+            </div>
+
+            <!-- EXPERIENCIA -->
+            <div class="form-group">
+
+              <label>
+                Experiencia
+              </label>
+
+              <input
+                type="number"
+                [(ngModel)]="formData.experiencia"
+                name="experiencia"
+              >
+
+            </div>
+
+            <!-- DISPONIBILIDAD -->
+            <div class="form-group">
+
+              <label>
+                Disponibilidad
+              </label>
+
+              <select
+                [(ngModel)]="formData.disponibilidad"
+                name="disponibilidad"
+              >
+
+                <option [ngValue]="true">
+                  Disponible
+                </option>
+
+                <option [ngValue]="false">
+                  No disponible
+                </option>
+
+              </select>
+
+            </div>
+            
+            <!-- FECHAS DISPONIBLES -->
+<!-- HORARIOS DISPONIBLES -->
+<div class="form-group full-width">
+
+  <label>
+    Horarios disponibles
+  </label>
+
+  <input
+    type="datetime-local"
+    #horarioInput
+    class="custom-input"
+  >
+
+  <button
+    type="button"
+    class="add-date-btn"
+    (click)="addFecha(horarioInput.value); horarioInput.value=''"
+  >
+    <i class="bi bi-plus-circle"></i>
+    Agregar horario
+  </button>
+
+  <!-- LISTA -->
+  <div class="dates-list">
+
+    @for (
+      horario of formData.horariosDisponibles;
+      track $index
+    ) {
+
+      <div class="date-chip">
+
+        <span>
+          {{ horario | date:'medium' }}
+        </span>
+
+        <button
+          type="button"
+          (click)="removeFecha($index)"
+        >
+          <i class="bi bi-x"></i>
+        </button>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+            <!-- EMPRESA -->
+            <div class="form-group">
+
+              <label>
+                Empresa
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="formData.empresa"
+                name="empresa"
+              >
+
+            </div>
+
+            <!-- PUESTO -->
+            <div class="form-group">
+
+              <label>
+                Puesto
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="formData.puesto"
+                name="puesto"
+              >
+
+            </div>
+
+            <!-- EDUCACIÓN -->
+            <div class="form-group full-width">
+
+              <label>
+                Educación
+              </label>
+
+              <textarea
+                rows="5"
+                [(ngModel)]="formData.educacion"
+                name="educacion"
+              ></textarea>
+
+            </div>
+
+            <!-- LINKEDIN -->
+            <div class="form-group full-width">
+
+              <label>
+                LinkedIn
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="formData.linkedIn"
+                name="linkedIn"
+              >
+
+            </div>
+
+          </div>
+
+          <!-- BOTÓN -->
+          <button
+            class="save-btn"
+            [disabled]="saving"
+          >
+
+            @if (!saving) {
+              Guardar cambios
+            }
+
+            @if (saving) {
+
+              <span
+                class="spinner-border spinner-border-sm me-2"
+              ></span>
+
+              Guardando...
+
+            }
+
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+
+        <!-- INFO -->
+        <div class="sidebar-card">
+
+          <h3>
+            Información
+          </h3>
+
+          <div class="info-item">
+
+            <small>Email</small>
+
+            <strong>
+              {{ mentor.usuarioId?.email }}
+            </strong>
+
+          </div>
+
+          <div class="info-item">
+
+            <small>Estado</small>
+
+            <span
+              class="status"
+              [ngClass]="mentor.aprobada
+                ? 'active'
+                : 'pending'"
+            >
+
+              {{
+                mentor.aprobada
+                  ? 'Aprobada'
+                  : 'Pendiente'
+              }}
+
+            </span>
+
+          </div>
+
+          <div class="info-item">
+
+            <small>Disponibilidad</small>
+
+            <span
+              class="status"
+              [ngClass]="mentor.disponibilidad
+                ? 'available'
+                : 'inactive'"
+            >
+
+              {{
+                mentor.disponibilidad
+                  ? 'Disponible'
+                  : 'No disponible'
+              }}
+
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- ESPECIALIDADES -->
+        <div class="sidebar-card">
+
+          <h3>
+            Especialidades
+          </h3>
+
+          <div class="specialties-list">
+
+            @for (
+              area of mentor.especialidades;
+              track area._id
+            ) {
+
+              <div class="specialty-item">
+
+                <i class="bi {{ area.icono }}"></i>
+
+                <span>
+                  {{ area.nombre }}
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</section>
